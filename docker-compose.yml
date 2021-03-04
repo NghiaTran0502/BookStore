@@ -1,0 +1,57 @@
+version: "3"
+services:
+  server:
+    container_name: server
+    build:
+      context: ./BackEnd
+      dockerfile: ./Dockerfile
+    working_dir: /usr/backend
+    ports:
+      - 9000:9000
+    volumes:
+      - ./BackEnd:/usr/backend
+      - /usr/backend/node_modules
+    command: npm start
+    networks:
+      - common
+
+  adminclient:
+    container_name: adminclient
+    build:
+      context: ./FrontEnd/admin
+      dockerfile: ./Dockerfile
+    working_dir: /usr/frontend/admin
+    ports:
+      - 5000:5000
+    volumes:
+      - ./FrontEnd/admin:/usr/frontend/admin
+      - /usr/frontend/admin/node_modules
+    command: npm start
+    networks:
+      - common
+
+  frontclient:
+    container_name: frontclient
+    build:
+      context: ./FrontEnd/client
+      dockerfile: ./Dockerfile
+    working_dir: /usr/frontend/client
+    ports:
+      - 3000:3000
+    volumes:
+      - ./FrontEnd/client:/usr/frontend/client
+      - /usr/frontend/client/node_modules
+    command: npm start
+    networks:
+      - common
+
+  mongo:
+    container_name: mongobookstore
+    image: mongo
+    ports:
+      - 27017:27017
+    networks:
+      - common
+
+networks:
+  common:
