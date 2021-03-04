@@ -1,6 +1,9 @@
-const express = require('express')
+const express = require('express');
+const connectDB = require('./connection/db');
 const app = express()
 const port = process.env.PORT || 9000;
+
+connectDB();
 
 app.get('/', (req, res) => {
    res.send('This is test');
